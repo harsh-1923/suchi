@@ -16,7 +16,7 @@ import "./styles.css";
 import scrollIntoView from "smooth-scroll-into-view-if-needed";
 
 // Control Variables
-const SCROLL_DURATION = 400;
+const SCROLL_DURATION = 500;
 const INTERSECTION_THRESHOLD = 0.4;
 
 // Interfaces
@@ -126,9 +126,9 @@ const ReadTime: React.FC<ReadTimeProps> = ({ className = "", style = {} }) => {
   }, [sections]);
 
   return (
-    <p className={className} style={style}>
+    <span className={className} style={style}>
       {readTime} min{`${readTime > 1 ? "s" : ""}`}
-    </p>
+    </span>
   );
 };
 
