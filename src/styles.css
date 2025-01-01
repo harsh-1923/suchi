@@ -1,44 +1,18 @@
 [data-suchi-root] {
-  --suchi-accentColor: orangered;
-
-  --suchi-inactive-indicator: rgb(166, 166, 166);
-  --suchi-inactive-item: rgb(88, 85, 85);
-  --suchi-scrollbar-color: rgb(176, 176, 176);
-
-  --suchi-background-color: white;
-
-  /* Mobile */
+  --suchi-accentColor: hsl(9, 100%, 59%);
+  --suchi-inactive-indicator: hsl(0, 0%, 65%);
+  --suchi-inactive-item: hsl(0, 3%, 34%);
+  --suchi-scrollbar-color: hsl(0, 0%, 69%);
+  --suchi-background-color: hsl(0, 0%, 100%);
   --suchi-mobile-elevated-padding: 20px;
-  --suchi-mobile-normal-padding: 0px;
+  --suchi-mobile-padding: 0px;
 }
 
-@media (prefers-color-scheme: dark) {
-  [data-suchi-root] {
-    --suchi-inactive-item: rgb(188, 177, 177);
-    --suchi-inactive-indicator: rgb(188, 177, 177);
-    --suchi-scrollbar-color: rgb(125, 125, 125);
-
-    --suchi-background-color: #1d1c1c;
-  }
-}
-
-/*
-=================================================================
-===================== DESKTOP STYLES ============================
-=================================================================
-*/
-
-[data-suchi-desktop] {
-  position: fixed;
-  top: 30%;
-  right: 16px;
-  z-index: 99999999;
-}
-
-@media (width < 768px) {
-  [data-suchi-desktop] {
-    display: none;
-  }
+.dark [data-suchi-root] {
+  --suchi-inactive-item: hsl(0, 12%, 73%);
+  --suchi-inactive-indicator: hsl(0, 12%, 73%);
+  --suchi-scrollbar-color: hsl(0, 0%, 49%);
+  --suchi-background-color: hsl(0, 1%, 11%);
 }
 
 [data-suchi-indicators] {
@@ -48,6 +22,8 @@
   align-items: end;
   gap: 16px;
   padding: 16px 0;
+  outline: none;
+  border: none;
 }
 
 [data-suchi-indicator] {
@@ -70,7 +46,6 @@
 }
 
 [data-suchi-desktop-items] {
-  outline: 1px solid rgb(221, 221, 221);
   position: absolute;
   top: 0;
   right: 0;
@@ -83,9 +58,10 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
   scrollbar-color: var(--suchi-scrollbar-color) transparent;
   scrollbar-width: thin;
+  outline: none;
 }
 
 [data-suchi-desktop-item] {
@@ -94,6 +70,8 @@
   text-align: left;
   font-size: 14px;
   font-weight: 400;
+  padding: 4px 6px;
+  border-radius: 4px;
 }
 
 [data-suchi-desktop-item="active"] {
@@ -102,12 +80,6 @@
 
 [data-suchi-desktop-item="inactive"] {
   color: var(--suchi-inactive-indicator);
-}
-
-@media (prefers-color-scheme: dark) {
-  [data-suchi-desktop-items] {
-    outline: 1px solid rgb(50, 50, 50);
-  }
 }
 
 .fadein {
@@ -121,10 +93,12 @@
 @keyframes fadein {
   from {
     opacity: 0;
-    transform: translate3d(30px, 0px, 0);
+    filter: blur(4px);
+    transform: translate3d(16px, 5px, 0);
   }
   to {
     opacity: 1;
+    filter: blur(0px);
     transform: translate3d(0px, 0px, 0);
   }
 }
@@ -140,11 +114,10 @@
   }
 }
 
-/* 
-=================================================================
-===================== MOBILE STYLES =============================
-=================================================================
-*/
+/**
+ * 
+ * MOBILE
+ */
 
 [data-suchi-mobile] {
   position: fixed;
@@ -160,33 +133,37 @@
   outline: 1px solid rgb(50, 50, 50);
 }
 
-@media (width > 768px) {
-  [data-suchi-mobile] {
-    display: none;
-  }
-}
-
 @keyframes suchi-mobile-appear {
   from {
     transform: translate3d(-50%, 100px, 0);
   }
 }
 
-[data-suchi-mobile-scrollarea] {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  transition: all 150ms ease-in;
-}
-
 [data-suchi-mobile-items] {
   display: flex;
   align-items: center;
   overflow-x: scroll;
+  scrollbar-width: thin;
   scrollbar-color: var(--suchi-scrollbar-color) transparent;
   scroll-snap-type: x mandatory;
-  margin-left: 8px;
+  transition: all 150ms ease-in;
+  padding-right: 50px;
+}
+
+[data-suchi-mobile-items]::after {
+  content: "";
+  width: 80px;
+  height: 100%;
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--suchi-background-color)
+  );
+  position: absolute;
+  right: 0;
+  top: 0;
+  pointer-events: none !important;
+  user-select: none !important;
 }
 
 [data-suchi-mobile-item] {
@@ -196,45 +173,38 @@
   font-size: 14px;
   transition: all 100ms ease-in;
   scroll-snap-align: start;
-  margin-right: 16px;
+  padding: 0px 8px;
 }
 
-[data-suchi-mobile-overlay] {
-  width: 100vw;
-  position: absolute;
-  top: -45px;
-  height: 45px;
-  left: 0;
-  overflow: hidden;
-  pointer-events: none !important;
-  user-select: none !important;
-  background-image: linear-gradient(to bottom, transparent, #f9f9f97e);
+[data-suchi-mobile-item]:last-child {
+  margin-right: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  [data-suchi-mobile] {
-    background-color: #1d1c1c;
-    outline: 1px solid rgb(50, 50, 50);
-  }
-
-  [data-suchi-mobile-overlay] {
-    background-image: linear-gradient(
-      to bottom,
-      transparent,
-      #0b0a0a84
-    ) !important;
-  }
+.dark [data-suchi-mobile] {
+  background-color: var(--suchi-background-color);
+  outline: 1px solid rgb(50, 50, 50);
 }
 
-/* 
-=================================================================
-===================== REFERENCES STYLES =========================
-=================================================================
-*/
+.dark [data-suchi-mobile]::before {
+  background-image: linear-gradient(
+    to bottom,
+    transparent,
+    #0b0a0a84
+  ) !important;
+}
+
+[data-suchi-reference-list] {
+  padding: 16px 0px;
+  font-size: 14px;
+}
 
 [data-suchi-references] {
-  margin: 24px 0;
-  padding-top: 48px;
   list-style-type: decimal;
-  padding-inline-start: 20px;
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+[data-suchi-reference-marker] {
+  font-size: 10px;
+  vertical-align: super;
 }
